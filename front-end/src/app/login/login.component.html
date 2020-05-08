@@ -1,0 +1,20 @@
+<form class="form-signin">
+  <div class="text-center mb-4">
+    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72"
+      height="72">
+  </div>
+  <div class="form-label-group">
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+  </div>
+  <div class="form-label-group">
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+  </div>
+  <br>
+  <button class="btn btn-lg btn-primary btn-block" (click)="signIn()">{{ changeButtonlabel() }}</button>
+  <div class="checkbox mb-3 text-center">
+    <a href="javascript:void(0)" (click)="isRegister = !isRegister">
+      <label style="cursor: pointer;">Or add new account</label>
+    </a>
+  </div>
+  <p class="mt-5 mb-3 text-muted text-center">© Alexandre Del Picolo - 2020</p>
+</form>
