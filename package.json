@@ -1,0 +1,35 @@
+{
+  "name": "SehoTest2",
+  "version": "1.0.0",
+  "description": "Angular + NodeJs + GraphQL + MongoDB",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "serve": "npm run build && node lib/index.js",
+    "start": "node lib/index.js",
+    "deploy": "npm run build && gcloud app deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexandreDelPicolo/SehoTest2.git"
+  },
+  "keywords": [],
+  "author": "Alexandre Del Picolo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexandreDelPicolo/SehoTest2/issues"
+  },
+  "homepage": "https://github.com/AlexandreDelPicolo/SehoTest2#readme",
+  "dependencies": {
+    "apollo-server": "^2.13.0",
+    "apollo-server-express": "^2.13.0",
+    "express": "^4.17.1",
+    "graphql": "^15.0.0",
+    "mongoose": "^5.9.12",
+    "nodemon": "^2.0.3"
+  },
+  "devDependencies": {
+    "tslint": "^6.1.2",
+    "typescript": "^3.8.3"
+  }
+}
