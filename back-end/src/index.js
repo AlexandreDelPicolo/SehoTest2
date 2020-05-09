@@ -8,16 +8,19 @@ const { User } = require('./models');
 const typeDefs = gql`
     type User {
         id: ID!
-        userName: String
+        firstName: String
+        lastName: String
         email: String
+        password: String
+
     }
     type Query {
         getUsers: [User]
         getUser(id: ID!): User
     }
     type Mutation {
-        addUser(userName: String!, email: String!): User!
-        editUser(id: ID!, userName: String!, email: String!): User!
+        addUser(firstName: String!, lastName: String!, email: String!, password: String!): User!
+        editUser(id: ID!, firstName: String!, lastName: String!, email: String!): User!
         deleteUser(id: ID!): User!
     }
 `;
@@ -37,7 +40,7 @@ const resolvers = {
     },
     editUser: async (_, args) => {
       try {
-        const update = { userName: args.userName, email: args.email };
+        const update = { firstName: args.firstName, lastName: args.lastName, email: args.email };
         return await User.findOneAndUpdate(args.id, update, { new: true });
       } catch (error) {
         return error.message;
