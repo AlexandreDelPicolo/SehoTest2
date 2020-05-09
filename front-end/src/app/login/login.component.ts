@@ -24,7 +24,7 @@ export class LoginComponent {
     if (!this.isValidAccess())
       return;
 
-    this.router.navigate(['/users']);
+    this.router.navigate(['/dash']);
   }
 
 }
