@@ -1,0 +1,29 @@
+<div class="div-padding">
+  <div>
+    <app-user-collapse-component></app-user-collapse-component>
+  </div>
+
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">LastName</th>
+          <th scope="col">Email</th>
+          <th scope="col" colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users, let i = index;">
+          <th>{{ i }}</th>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td><button type="button" class="btn btn-primary">Edit</button></td>
+          <td><button type="button" class="btn btn-danger">Remove</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
