@@ -1,62 +1,80 @@
-const express = require('express');
-const { ApolloServer, gql } = require('apollo-server-express');
-
 require('./config');
-
+const { ApolloServer } = require('apollo-server-express');
+const { gql } = require('apollo-server');
 const { User } = require('./models');
+const express = require('express');
+const auth = require('./auth');
 
 const typeDefs = gql`
-    type User {
-        id: ID!
-        firstName: String
-        lastName: String
-        email: String
-        password: String
+  type User {
+      id: ID!
+      firstName: String
+      lastName: String
+      email: String
+      password: String
+  }
 
-    }
-    type Query {
-        getUsers: [User]
-        getUser(id: ID!): User
-    }
-    type Mutation {
-        addUser(firstName: String!, lastName: String!, email: String!, password: String!): User!
-        editUser(id: ID!, firstName: String!, lastName: String!, email: String!): User!
-        deleteUser(id: ID!): User!
-    }
+  type Auth {
+      allowed: Boolean
+      token: String
+  }
+
+  type Query {  
+      getUsers: [User]
+  }
+
+  type Mutation {
+      addUser(firstName: String!, lastName: String!, email: String!, password: String!): User!
+      editUser(id: ID!, firstName: String!, lastName: String!, email: String!): User!
+      deleteUser(id: ID!): User!
+      authenticate(email: String!, password: String!): Auth!
+      register(firstName: String!, lastName: String!, email: String!, password: String!): Auth!
+  }
 `;
 
 const resolvers = {
   Query: {
     getUsers: async () => await User.find({}).exec(),
-    getUser: async (_, args) => await User.findById(args.id).exec()
   },
+
   Mutation: {
     addUser: async (_, args) => {
-      try {
-        return await User.create(args);
-      } catch (error) {
-        return error.message;
-      }
+      args.password = await auth.hashPasswordAsync(args.password);
+      return await User.create(args);
     },
     editUser: async (_, args) => {
-      try {
-        const update = { firstName: args.firstName, lastName: args.lastName, email: args.email };
-        return await User.findOneAndUpdate(args.id, update, { new: true });
-      } catch (error) {
-        return error.message;
-      }
+      const update = { firstName: args.firstName, lastName: args.lastName, email: args.email };
+      return await User.findOneAndUpdate(args.id, update, { new: true });
     },
     deleteUser: async (_, args) => {
-      try {
-        return await User.findByIdAndDelete(args.id);
-      } catch (error) {
-        return error.message;
-      }
+      return await User.findByIdAndDelete(args.id);
+    },
+    register: async (_, args) => {
+      args.password = await auth.hashPasswordAsync(args.password);
+
+      const user = await User.create(args);
+      const token = auth.generateToken(user);
+
+      return { allowed: true, token: token };
+    },
+    authenticate: async (_, args) => {
+      const user = await User.findOne({ "email": args.email }).exec();
+
+      if (!user || !await auth.checkPasswordAsync(args.password, user.password))
+        return { allowed: false, token: null };
+
+      const token = auth.generateToken(user);
+      return { allowed: true, token: token };
     }
   }
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: (async ({ req }) => await auth.verifyToken(req))
+});
+
 const app = express();
 server.applyMiddleware({ app });
 

@@ -1,20 +1,40 @@
-<form class="form-signin">
+<div class="form-signin">
   <div class="text-center mb-4">
-    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72"
-      height="72">
+    <img class="mb-4" src="assets/angular_solidBlack.svg" alt="" width="100">
+  </div>
+
+  <ng-container *ngIf="isRegister">
+    <div class="form-label-group">
+      <input type="text" id="firstName" class="form-control" placeholder="Firstname" required
+        [(ngModel)]="user.firstName">
+    </div>
+    <div class="form-label-group">
+      <input type="text" id="lastName" class="form-control" placeholder="LastName" required [(ngModel)]="user.lastName">
+    </div>
+  </ng-container>
+
+  <div class="form-label-group">
+    <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus=""
+      [(ngModel)]="user.email">
   </div>
   <div class="form-label-group">
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-  </div>
-  <div class="form-label-group">
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
+      [(ngModel)]="user.password">
   </div>
   <br>
-  <button class="btn btn-lg btn-primary btn-block" (click)="signIn()">{{ changeButtonlabel() }}</button>
+  <button *ngIf="!isRegister" class="btn btn-lg btn-primary btn-block" (click)="login()" [disabled]="load">
+    <span *ngIf="load" class="spinner-border spinner-border-sm"></span>
+    <span *ngIf="!load">Login</span>
+  </button>
+  <button *ngIf="isRegister" class="btn btn-lg btn-primary btn-block" (click)="register()" [disabled]="load">
+    <span *ngIf="load" class="spinner-border spinner-border-sm"></span>
+    <span *ngIf="!load">Register</span>
+  </button>
   <div class="checkbox mb-3 text-center">
-    <a href="javascript:void(0)" (click)="isRegister = !isRegister">
-      <label style="cursor: pointer;">Or add new account</label>
+    <a href="javascript:void(0)" (click)="clean()">
+      <label *ngIf="!isRegister" style="cursor: pointer;">Or add new account</label>
+      <label *ngIf="isRegister" style="cursor: pointer;">Cancel</label>
     </a>
   </div>
   <p class="mt-5 mb-3 text-muted text-center">© Alexandre Del Picolo - 2020</p>
-</form>
+</div>

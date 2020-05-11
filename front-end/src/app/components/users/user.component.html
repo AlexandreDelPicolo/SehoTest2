@@ -1,6 +1,7 @@
 <div class="div-padding">
   <div>
-    <app-user-collapse-component></app-user-collapse-component>
+    <app-user-collapse-component [user]="userToUpdate" [(show)]="showForm" (close)="showForm = !showForm">
+    </app-user-collapse-component>
   </div>
 
   <div>
@@ -16,12 +17,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let user of users, let i = index;">
-          <th>{{ i }}</th>
+          <th>{{ i + 1 }}</th>
           <td>{{ user.firstName }}</td>
           <td>{{ user.lastName }}</td>
           <td>{{ user.email }}</td>
-          <td><button type="button" class="btn btn-primary">Edit</button></td>
-          <td><button type="button" class="btn btn-danger">Remove</button></td>
+          <td><button type="submit" class="btn btn-primary" (click)="edit(user)">Edit</button></td>
+          <td><button type="submit" class="btn btn-danger" (click)="delete(user.id)">Remove</button></td>
         </tr>
       </tbody>
     </table>

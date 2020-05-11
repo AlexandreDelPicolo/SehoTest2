@@ -1,9 +1,8 @@
-<button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample"
-  aria-expanded="false" aria-controls="collapseExample">
+<button class="btn btn-success" type="button" (click)="cleanForm()">
   Add new user
 </button>
 
-<div class="collapse" id="collapseExample">
+<div class="collapse" [ngClass]="(show == true) ? 'show' : ''" id="collapseExample">
   <div class="row">
     <div class="form-group col-lg-3">
       <label for="firstName">First name</label>
@@ -18,18 +17,16 @@
       <label for="email">Email address</label>
       <input type="email" class="form-control" id="email" placeholder="Enter email" [(ngModel)]="user.email">
     </div>
-    <div class="form-group  col-lg-3">
+    <div *ngIf="!this.user.id" class="form-group  col-lg-3">
       <label for="password">Password</label>
       <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="user.password">
     </div>
   </div>
   <div class="text-right">
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
-      aria-expanded="false" aria-controls="collapseExample" style="margin-right: 10px;" (click)="sendAction(user)">
-      {{ actionButton }}
+    <button class="btn btn-primary" type="button" (click)="sendAction(user)" style="margin-right: 10px;">
+      {{ buttonText() }}
     </button>
-    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample"
-      aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-secondary" type="button" (click)="cleanForm()">
       Cancel
     </button>
   </div>
