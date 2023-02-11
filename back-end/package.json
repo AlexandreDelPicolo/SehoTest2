@@ -33,7 +33,7 @@
     "mongoose": "^5.9.12",
     "neo4j-driver": "^4.0.2",
     "neo4j-graphql-js": "^2.14.0",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.20"
   },
   "devDependencies": {
     "tslint": "^6.1.2",
